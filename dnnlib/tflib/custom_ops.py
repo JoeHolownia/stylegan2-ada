@@ -39,7 +39,7 @@ def _find_compiler_bindir():
     hostx64_paths = sorted(glob.glob('C:/Program Files (x86)/Microsoft Visual Studio/*/BuildTools/VC/Tools/MSVC/*/bin/Hostx64/x64'), reverse=True)
     if hostx64_paths != []:
         return hostx64_paths[0]
-    hostx64_paths = sorted(glob.glob('C:/Program Files (x86)/Microsoft Visual Studio/*/Community/VC/Tools/MSVC/*/bin/Hostx64/x64'), reverse=True)
+    hostx64_paths = sorted(glob.glob('C:/Program Files (x86)/Microsoft Visual Studio/2017/Community/VC/Tools/MSVC/*/bin/Hostx64/x64'), reverse=True)
     if hostx64_paths != []:
         return hostx64_paths[0]
     vc_bin_dir = 'C:/Program Files (x86)/Microsoft Visual Studio 14.0/vc/bin'
@@ -59,6 +59,8 @@ def _get_cuda_gpu_arch_string():
     if len(gpus) == 0:
         raise RuntimeError('No GPU devices found')
     (major, minor) = _get_compute_cap(gpus[0])
+    # modified this to work! (avoids sm_86 on Windows laptop not being valid option)
+    major, minor = 7, 5
     return 'sm_%s%s' % (major, minor)
 
 def _run_cmd(cmd):

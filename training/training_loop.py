@@ -73,8 +73,13 @@ def save_image_grid(images, filename, drange, grid_size):
     _N, C, H, W = images.shape
     images = images.reshape(gh, gw, C, H, W)
     images = images.transpose(0, 3, 1, 4, 2)
-    images = images.reshape(gh * H, gw * W, C)
-    PIL.Image.fromarray(images, {3: 'RGB', 1: 'L'}[C]).save(filename)
+    if C == 3:  # color images
+        images = images.reshape(gh * H, gw * W, C)
+        PIL.Image.fromarray(images, 'RGB').save(filename)
+        #PIL.Image.fromarray(images, {3: 'RGB', 1: 'L'}[C]).save(filename)
+    else:  # grayscale
+        images = images.reshape(gh * H, gw * W)
+        PIL.Image.fromarray(images, 'L').save(filename)
 
 #----------------------------------------------------------------------------
 # Main training script.

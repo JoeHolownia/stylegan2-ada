@@ -1,1 +1,5 @@
 __pycache__/
+datasets
+keras_png_slices_data
+results
+.idea
